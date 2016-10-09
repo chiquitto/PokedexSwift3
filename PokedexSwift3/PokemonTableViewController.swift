@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class PokemonTableViewController: UITableViewController {
     
@@ -98,11 +99,55 @@ class PokemonTableViewController: UITableViewController {
     */
     
     func loadData() {
-        let pokemon1 = Pokemon(number: 1, name: "Bulbasaur")
+        /*Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/").responseJSON { response in
+            print(response.request)  // original URL request
+            print(response.response) // HTTP URL response
+            print(response.data)     // server data
+            print(response.result)   // result of response serialization
+            
+            if let JSON = response.result.value {
+                print("JSON: \(JSON)")
+            }
+        }*/
+        
+        Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/", method: .get, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                
+                if let result = response.result.value {
+                    let JSON = result as! NSDictionary
+                    
+                    /*
+                    let pokemon_entries = JSON["pokemon_entries"] as! NSArray
+                    let pokemon_entry = pokemon_entries[0] as! NSDictionary
+                    print(pokemon_entry["entry_number"]!)
+                    print(pokemon_entry["pokemon_species"]!)*/
+                    
+                    // as? Array<Dictionary<String, String>>
+                    if let pokemon_entries = JSON["pokemon_entries"] as? [[String:AnyObject]] {
+                        
+                        for (_, pokemon_entry) in pokemon_entries.enumerated() {
+                            
+                            if let pokemon_species = pokemon_entry["pokemon_species"] as? [String:String] {
+                                self.itens += [Pokemon(number: pokemon_entry["entry_number"] as! Int, name: pokemon_species["name"]!.capitalized)]
+                            } else {
+                                print("ERRO")
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                        
+                    } else {
+                        print("ERRO")
+                    }
+                }
+                
+        }
+        
+        /*let pokemon1 = Pokemon(number: 1, name: "Bulbasaur")
         let pokemon4 = Pokemon(number: 4, name: "Charmander")
         let pokemon7 = Pokemon(number: 7, name: "Squirtle")
         
-        itens += [pokemon1, pokemon4, pokemon7]
+        itens += [pokemon1, pokemon4, pokemon7]*/
     }
 
 }
