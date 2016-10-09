@@ -8,8 +8,9 @@
 
 import UIKit
 import Alamofire
+import NVActivityIndicatorView
 
-class PokemonTableViewController: UITableViewController {
+class PokemonTableViewController: UITableViewController, NVActivityIndicatorViewable {
     
     // MARK: Properties
     var itens = [Pokemon]()
@@ -99,16 +100,8 @@ class PokemonTableViewController: UITableViewController {
     */
     
     func loadData() {
-        /*Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/").responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // HTTP URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
-            
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
-            }
-        }*/
+        // startAnimating(CGSize(width: 30, height:30), message: "Carregando")
+        startAnimating()
         
         Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/", method: .get, encoding: JSONEncoding.default)
             .responseJSON { response in
@@ -135,6 +128,7 @@ class PokemonTableViewController: UITableViewController {
                         }
                         
                         self.tableView.reloadData()
+                        self.stopAnimating()
                         
                     } else {
                         print("ERRO")

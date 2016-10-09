@@ -7,5 +7,6 @@ target 'PokedexSwift3' do
 
   # Pods for PokedexSwift3
     pod 'Alamofire', '4.0.1'
+    pod 'NVActivityIndicatorView'
 
 end

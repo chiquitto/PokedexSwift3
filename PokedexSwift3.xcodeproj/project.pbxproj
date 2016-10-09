@@ -143,12 +143,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9BD363F1DAA2ED1006E152A /* Build configuration list for PBXNativeTarget "PokedexSwift3Tests" */;
 			buildPhases = (
-				4B147F5984870CE923414352 /* [CP] Check Pods Manifest.lock */,
 				C9BD362F1DAA2ED1006E152A /* Sources */,
 				C9BD36301DAA2ED1006E152A /* Frameworks */,
 				C9BD36311DAA2ED1006E152A /* Resources */,
-				68DFA10FDC7FDC7017649EEF /* [CP] Embed Pods Frameworks */,
-				65308F12F0029503D75DB6FA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,51 +233,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokedexSwift3/Pods-PokedexSwift3-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4B147F5984870CE923414352 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		65308F12F0029503D75DB6FA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokedexSwift3Tests/Pods-PokedexSwift3Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		68DFA10FDC7FDC7017649EEF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PokedexSwift3Tests/Pods-PokedexSwift3Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7ED386080B730BAD26DE5BFF /* [CP] Check Pods Manifest.lock */ = {
