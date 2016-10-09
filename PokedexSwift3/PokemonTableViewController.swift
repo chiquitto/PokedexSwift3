@@ -51,6 +51,9 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         let pokemon = itens[indexPath.row]
         cell.nameLabel.text = "#" + String(format: "%02d", pokemon.number) + " - " + pokemon.name
         
+        cell.type1.pokemonType = "normal"
+        cell.type2.pokemonType = "ground"
+        
         // Load image in UIImageView
         let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + String(pokemon.number) + ".png")
         DispatchQueue.global().async {

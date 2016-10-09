@@ -12,6 +12,8 @@ class PokemonTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var type1: TypeView!
+    @IBOutlet weak var type2: TypeView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

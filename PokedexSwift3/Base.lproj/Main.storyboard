@@ -24,11 +24,6 @@
                                     <frame key="frameInset" width="375" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pokemonP" translatesAutoresizingMaskIntoConstraints="NO" id="tqY-od-ueB">
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="tqY-od-ueB" secondAttribute="height" multiplier="1:1" id="gmj-fd-i3T"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9Z-Xq-1xy">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="IIO-lO-RQ8"/>
@@ -37,19 +32,44 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tqY-od-ueB">
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="tqY-od-ueB" secondAttribute="height" multiplier="1:1" id="gmj-fd-i3T"/>
+                                            </constraints>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YKa-j7-PRj" customClass="TypeView" customModule="PokedexSwift3" customModuleProvider="target">
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="LWQ-sf-9Jn"/>
+                                                <constraint firstAttribute="height" constant="26" id="dEg-rq-LIw"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUl-Bs-Uep" customClass="TypeView" customModule="PokedexSwift3" customModuleProvider="target">
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="oIH-jL-Cq6"/>
+                                                <constraint firstAttribute="height" constant="26" id="qZn-L4-tRP"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="topMargin" secondItem="f9Z-Xq-1xy" secondAttribute="top" id="2uR-GW-Ie8"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="f9Z-Xq-1xy" secondAttribute="trailing" constant="12" id="7Qo-Ar-SRb"/>
                                         <constraint firstAttribute="topMargin" secondItem="tqY-od-ueB" secondAttribute="top" id="ANf-K4-Umi"/>
+                                        <constraint firstItem="bUl-Bs-Uep" firstAttribute="leading" secondItem="YKa-j7-PRj" secondAttribute="trailing" constant="8" id="O14-EW-VTo"/>
+                                        <constraint firstItem="YKa-j7-PRj" firstAttribute="leading" secondItem="tqY-od-ueB" secondAttribute="trailing" constant="9" id="SD7-6Y-3NK"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="tqY-od-ueB" secondAttribute="leading" id="Tjo-p2-hkz"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="tqY-od-ueB" secondAttribute="bottom" id="XGn-oN-6bg"/>
+                                        <constraint firstItem="YKa-j7-PRj" firstAttribute="top" secondItem="f9Z-Xq-1xy" secondAttribute="bottom" constant="8" id="g1G-Fa-3Fc"/>
+                                        <constraint firstItem="bUl-Bs-Uep" firstAttribute="top" secondItem="f9Z-Xq-1xy" secondAttribute="bottom" constant="8" id="gjt-Gj-d2x"/>
                                         <constraint firstItem="f9Z-Xq-1xy" firstAttribute="leading" secondItem="23x-Rj-p1q" secondAttribute="leadingMargin" constant="82" id="nDC-pJ-ETN"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="f9Z-Xq-1xy" id="1ct-av-zNM"/>
                                     <outlet property="photo" destination="tqY-od-ueB" id="hv9-Vo-v9r"/>
+                                    <outlet property="type1" destination="YKa-j7-PRj" id="ruJ-cx-iYZ"/>
+                                    <outlet property="type2" destination="bUl-Bs-Uep" id="1Bk-y2-LCn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -61,7 +81,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rCS-Z4-wJQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-642" y="46"/>
+            <point key="canvasLocation" x="-618" y="115"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -81,7 +101,4 @@
             </objects>
         </scene>
     </scenes>
-    <resources>
-        <image name="pokemonP" width="48" height="48"/>
-    </resources>
 </document>
