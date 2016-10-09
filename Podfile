@@ -8,5 +8,6 @@ target 'PokedexSwift3' do
   # Pods for PokedexSwift3
     pod 'Alamofire', '4.0.1'
     pod 'NVActivityIndicatorView'
+    pod "PromiseKit", "~> 4.0"
 
 end

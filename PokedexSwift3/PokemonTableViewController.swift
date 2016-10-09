@@ -9,11 +9,15 @@
 import UIKit
 import Alamofire
 import NVActivityIndicatorView
+import PromiseKit
 
 class PokemonTableViewController: UITableViewController, NVActivityIndicatorViewable {
     
     // MARK: Properties
     var itens = [Pokemon]()
+    
+    var pokedexJson:NSDictionary = [:]
+    var typesCsv = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,67 +116,64 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
     */
     
     func loadData() {
-        // startAnimating(CGSize(width: 30, height:30), message: "Carregando")
         startAnimating()
         
-        Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/", method: .get, encoding: JSONEncoding.default)
-            .responseJSON { response in
-                
-                if let result = response.result.value {
-                    let JSON = result as! NSDictionary
-                    
-                    /*
-                    let pokemon_entries = JSON["pokemon_entries"] as! NSArray
-                    let pokemon_entry = pokemon_entries[0] as! NSDictionary
-                    print(pokemon_entry["entry_number"]!)
-                    print(pokemon_entry["pokemon_species"]!)*/
-                    
-                    // as? Array<Dictionary<String, String>>
-                    if let pokemon_entries = JSON["pokemon_entries"] as? [[String:AnyObject]] {
-                        
-                        for (_, pokemon_entry) in pokemon_entries.enumerated() {
-                            
-                            if let pokemon_species = pokemon_entry["pokemon_species"] as? [String:String] {
-                                self.itens += [Pokemon(number: pokemon_entry["entry_number"] as! Int, name: pokemon_species["name"]!.capitalized)]
-                            } else {
-                                print("ERRO")
-                            }
-                        }
-                        
-                        self.tableView.reloadData()
-                        self.stopAnimating()
-                        
+        _ = loadPokemonList().then { json -> Promise<AnyObject> in
+            self.pokedexJson = json as! NSDictionary
+            
+            return self.loadPokemonTypes()
+        }.then { csv -> Promise<Bool> in
+            print(csv)
+            return self.renderTableView()
+        }.then { r -> Void in
+            self.tableView.reloadData()
+            self.stopAnimating()
+        }
+    }
+    
+    func loadPokemonList() -> Promise<AnyObject> {
+        return Promise{ fulfill, reject in
+            Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/", method: .get, encoding: JSONEncoding.default).responseJSON { response in
+                if let json = response.result.value {
+                    fulfill(json as AnyObject)
+                } else {
+                    reject(response.result.error!)
+                }
+            }
+        }
+    }
+    
+    func loadPokemonTypes() -> Promise<AnyObject> {
+        return Promise{ fulfill, reject in
+            Alamofire.request("https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_types.csv", method: .get).responseString { response in
+                if let json = response.result.value {
+                    fulfill(json as AnyObject)
+                } else {
+                    reject(response.result.error!)
+                }
+            }
+        }
+    }
+    
+    func renderTableView() -> Promise<Bool> {
+        return Promise{ fulfill, reject in
+            if let pokemon_entries = self.pokedexJson["pokemon_entries"] as? [[String:AnyObject]] {
+            
+                for (_, pokemon_entry) in pokemon_entries.enumerated() {
+
+                    if let pokemon_species = pokemon_entry["pokemon_species"] as? [String:String] {
+                        self.itens += [Pokemon(number: pokemon_entry["entry_number"] as! Int, name: pokemon_species["name"]!.capitalized)]
                     } else {
-                        print("ERRO")
+                        fulfill(false)
                     }
                 }
                 
-        }
-        
-        /*let pokemon1 = Pokemon(number: 1, name: "Bulbasaur")
-        let pokemon4 = Pokemon(number: 4, name: "Charmander")
-        let pokemon7 = Pokemon(number: 7, name: "Squirtle")
-        
-        itens += [pokemon1, pokemon4, pokemon7]*/
-    }
-    
-    /*func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) {
-            (data, response, error) in
-            completion(data, response, error)
-            }.resume()
-    }
-    
-    func downloadImage(url: URL) {
-        print("Download Started")
-        getDataFromUrl(url: url) { (data, response, error)  in
-            DispatchQueue.main.sync() { () -> Void in
-                guard let data = data, error == nil else { return }
-                print(response?.suggestedFilename ?? url.lastPathComponent)
-                print("Download Finished")
-                self.imageView.image = UIImage(data: data)
+                fulfill(true)
+            
+            } else {
+                fulfill(false)
             }
         }
-    }*/
+    }
 
 }
