@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -10,29 +12,44 @@
         <scene sceneID="ZYy-da-pbP">
             <objects>
                 <tableViewController id="7oL-Hr-84U" customClass="PokemonTableViewController" customModule="PokedexSwift3" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="iMb-7k-lc9">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="iMb-7k-lc9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PokemonTableViewCell" id="9wA-cV-5mV" customClass="PokemonTableViewCell" customModule="PokedexSwift3" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9wA-cV-5mV" id="23x-Rj-p1q">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9Z-Xq-1xy">
-                                            <frame key="frameInset" minX="8" minY="11" width="265" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pokemonP" translatesAutoresizingMaskIntoConstraints="NO" id="tqY-od-ueB">
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="tqY-od-ueB" secondAttribute="height" multiplier="1:1" id="gmj-fd-i3T"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9Z-Xq-1xy">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="25" id="IIO-lO-RQ8"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="topMargin" secondItem="f9Z-Xq-1xy" secondAttribute="top" id="2uR-GW-Ie8"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="f9Z-Xq-1xy" secondAttribute="trailing" constant="12" id="7Qo-Ar-SRb"/>
+                                        <constraint firstAttribute="topMargin" secondItem="tqY-od-ueB" secondAttribute="top" id="ANf-K4-Umi"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="tqY-od-ueB" secondAttribute="leading" id="Tjo-p2-hkz"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="tqY-od-ueB" secondAttribute="bottom" id="XGn-oN-6bg"/>
+                                        <constraint firstItem="f9Z-Xq-1xy" firstAttribute="leading" secondItem="23x-Rj-p1q" secondAttribute="leadingMargin" constant="82" id="nDC-pJ-ETN"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="nameLabel" destination="f9Z-Xq-1xy" id="1ct-av-zNM"/>
+                                    <outlet property="photo" destination="tqY-od-ueB" id="hv9-Vo-v9r"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -44,7 +61,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rCS-Z4-wJQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-706" y="139"/>
+            <point key="canvasLocation" x="-642" y="46"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -64,4 +81,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="pokemonP" width="48" height="48"/>
+    </resources>
 </document>

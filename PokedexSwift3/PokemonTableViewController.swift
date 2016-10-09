@@ -49,7 +49,16 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! PokemonTableViewCell
         
         let pokemon = itens[indexPath.row]
-        cell.nameLabel.text = pokemon.name
+        cell.nameLabel.text = "#" + String(format: "%02d", pokemon.number) + " - " + pokemon.name
+        
+        // Load image in UIImageView
+        let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + String(pokemon.number) + ".png")
+        DispatchQueue.global().async {
+            let data = try? Data(contentsOf: url!)
+            DispatchQueue.main.async {
+                cell.photo.image = UIImage(data: data!)
+            }
+        }
         
         return cell
     }
@@ -143,5 +152,24 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         
         itens += [pokemon1, pokemon4, pokemon7]*/
     }
+    
+    /*func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) {
+            (data, response, error) in
+            completion(data, response, error)
+            }.resume()
+    }
+    
+    func downloadImage(url: URL) {
+        print("Download Started")
+        getDataFromUrl(url: url) { (data, response, error)  in
+            DispatchQueue.main.sync() { () -> Void in
+                guard let data = data, error == nil else { return }
+                print(response?.suggestedFilename ?? url.lastPathComponent)
+                print("Download Finished")
+                self.imageView.image = UIImage(data: data)
+            }
+        }
+    }*/
 
 }
