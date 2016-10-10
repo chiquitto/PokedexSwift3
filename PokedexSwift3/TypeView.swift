@@ -11,85 +11,112 @@ import UIKit
 class TypeView: UIView {
 
     var typeLabel = UILabel()
-    var pokemonType = "" {
+    var pokemonType = 0 {
         didSet{
             setNeedsLayout()
         }
     };
     var colorTypes = [
-        "bug": [
-            "bg": UIColor(netHex:0xa8b820),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 7
-        "dark": [
-            "bg": UIColor(netHex:0x705848),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 17
-        "dragon": [
-            "bg": UIColor(netHex:0x7038f8),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 16
-        "electric": [
-            "bg": UIColor(netHex:0xf8d030),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 13
-        "fairy": [
-            "bg": UIColor(netHex:0xe898e8),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 18
-        "fighting": [
+        [
+            "bg": UIColor(red: 0, green: 0, blue: 0, alpha: 0),
+            "fg": UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+        ],
+        [ // normal
+            "bg": UIColor(netHex:0xA4ACAF),
+            "fg": UIColor(netHex:0x212121)
+        ],
+        [ // fighting
             "bg": UIColor(netHex:0xc03028),
             "fg": UIColor(netHex:0xffffff)
-        ],// 2
-        "fire": [
-            "bg": UIColor(netHex:0xf08030),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 10
-        "flying": [
+        ],
+        [ // flying
             "bg": UIColor(netHex:0xa890f0),
             "fg": UIColor(netHex:0xffffff)
-        ],// 3
-        "ghost": [
-            "bg": UIColor(netHex:0x705898),
+        ],
+        [ // poison
+            "bg": UIColor(netHex:0xa040a0),
             "fg": UIColor(netHex:0xffffff)
-        ],// 8
-        "grass": [
-            "bg": UIColor(netHex:0x78c850),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 12
-        "ground": [
+        ],
+        [ // ground
             "bg": UIColor(netHex:0xab9842),
             "fg": UIColor(netHex:0x212121)
         ],
-        "ice": [
-            "bg": UIColor(netHex:0x98d8d8),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 15
-        "normal": [
-            "bg": UIColor(netHex:0xA4ACAF),
-            "fg": UIColor(netHex:0x212121)
-        ],// 1
-        "poison": [
-            "bg": UIColor(netHex:0xa040a0),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 4
-        "psychic": [
-            "bg": UIColor(netHex:0xf85888),
-            "fg": UIColor(netHex:0xffffff)
-        ],// 14
-        "rock": [
+        [ // rock
             "bg": UIColor(netHex:0xb8a038),
             "fg": UIColor(netHex:0xffffff)
-        ],// 6
-        "steel": [
+        ],
+        [ // bug
+            "bg": UIColor(netHex:0xa8b820),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // ghost
+            "bg": UIColor(netHex:0x705898),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // steel
             "bg": UIColor(netHex:0xb8b8d0),
             "fg": UIColor(netHex:0xffffff)
-        ],// 9
-        "water": [
+        ],
+        [ // fire
+            "bg": UIColor(netHex:0xf08030),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // water
             "bg": UIColor(netHex:0x4592c4),
             "fg": UIColor(netHex:0xFFFFFF)
-        ],// 11
-    ] as [String : [String:UIColor]]
+        ],
+        [ // grass
+            "bg": UIColor(netHex:0x78c850),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // electric
+            "bg": UIColor(netHex:0xf8d030),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // psychic
+            "bg": UIColor(netHex:0xf85888),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // ice
+            "bg": UIColor(netHex:0x98d8d8),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // dragon
+            "bg": UIColor(netHex:0x7038f8),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // dark
+            "bg": UIColor(netHex:0x705848),
+            "fg": UIColor(netHex:0xffffff)
+        ],
+        [ // fairy
+            "bg": UIColor(netHex:0xe898e8),
+            "fg": UIColor(netHex:0xffffff)
+        ]
+    ] as [[String:UIColor]]
+    
+    
+    var colorNames = [
+        "",
+        "normal",
+        "fighting",
+        "flying",
+        "poison",
+        "ground",
+        "rock",
+        "bug",
+        "ghost",
+        "steel",
+        "fire",
+        "water",
+        "grass",
+        "electric",
+        "psychic",
+        "ice",
+        "dragon",
+        "dark",
+        "fairy"
+    ] as [String]
     
     // MARK: Initialization
     required init?(coder aDecoder: NSCoder) {
@@ -115,8 +142,9 @@ class TypeView: UIView {
     
     func refreshView() {
         
-        let bgColor = colorTypes[pokemonType]?["bg"]
-        let fgColor = colorTypes[pokemonType]?["fg"]
+        let bgColor = colorTypes[pokemonType]["bg"]
+        let fgColor = colorTypes[pokemonType]["fg"]
+        let typeName = colorNames[pokemonType]
         
 //        switch pokemonType {
 //        case "normal":
@@ -128,7 +156,7 @@ class TypeView: UIView {
 //            fgColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1)
 //        }
         
-        typeLabel.text = pokemonType.capitalized
+        typeLabel.text = typeName.capitalized
         typeLabel.textColor = fgColor
         self.backgroundColor = bgColor
     }

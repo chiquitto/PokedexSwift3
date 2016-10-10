@@ -11,6 +11,8 @@ import UIKit
 class Pokemon {
     var number:Int
     var name:String
+    var typeSlot1 = 0
+    var typeSlot2 = 0
     
     init(number:Int, name:String) {
         self.number = number

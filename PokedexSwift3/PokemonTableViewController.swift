@@ -17,7 +17,7 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
     var itens = [Pokemon]()
     
     var pokedexJson:NSDictionary = [:]
-    var typesCsv = ""
+    var typesCsv:[[String:String]] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,8 +55,8 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         let pokemon = itens[indexPath.row]
         cell.nameLabel.text = "#" + String(format: "%02d", pokemon.number) + " - " + pokemon.name
         
-        cell.type1.pokemonType = "normal"
-        cell.type2.pokemonType = "ground"
+        cell.type1.pokemonType = pokemon.typeSlot1
+        cell.type2.pokemonType = pokemon.typeSlot2
         
         // Load image in UIImageView
         let url = URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + String(pokemon.number) + ".png")
@@ -118,12 +118,9 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
     func loadData() {
         startAnimating()
         
-        _ = loadPokemonList().then { json -> Promise<AnyObject> in
-            self.pokedexJson = json as! NSDictionary
-            
+        _ = loadPokemonList().then { r -> Promise<Bool> in
             return self.loadPokemonTypes()
-        }.then { csv -> Promise<Bool> in
-            print(csv)
+        }.then { r -> Promise<Bool> in
             return self.renderTableView()
         }.then { r -> Void in
             self.tableView.reloadData()
@@ -131,11 +128,12 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         }
     }
     
-    func loadPokemonList() -> Promise<AnyObject> {
+    func loadPokemonList() -> Promise<Bool> {
         return Promise{ fulfill, reject in
             Alamofire.request("https://pokeapi.co/api/v2/pokedex/1/", method: .get, encoding: JSONEncoding.default).responseJSON { response in
                 if let json = response.result.value {
-                    fulfill(json as AnyObject)
+                    self.pokedexJson = json as! NSDictionary
+                    fulfill(true)
                 } else {
                     reject(response.result.error!)
                 }
@@ -143,11 +141,16 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
         }
     }
     
-    func loadPokemonTypes() -> Promise<AnyObject> {
+    func loadPokemonTypes() -> Promise<Bool> {
         return Promise{ fulfill, reject in
             Alamofire.request("https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_types.csv", method: .get).responseString { response in
-                if let json = response.result.value {
-                    fulfill(json as AnyObject)
+                if let csvTypes = response.result.value {
+                    
+                    //let csv = CSwiftV(String: csvTipes)
+                    let csv = CSwiftV(with: csvTypes)
+                    self.typesCsv = csv.keyedRows!
+                    
+                    fulfill(true)
                 } else {
                     reject(response.result.error!)
                 }
@@ -160,12 +163,28 @@ class PokemonTableViewController: UITableViewController, NVActivityIndicatorView
             if let pokemon_entries = self.pokedexJson["pokemon_entries"] as? [[String:AnyObject]] {
             
                 for (_, pokemon_entry) in pokemon_entries.enumerated() {
-
+                    
+                    let pokemon:Pokemon
                     if let pokemon_species = pokemon_entry["pokemon_species"] as? [String:String] {
-                        self.itens += [Pokemon(number: pokemon_entry["entry_number"] as! Int, name: pokemon_species["name"]!.capitalized)]
+                        pokemon = Pokemon(number: pokemon_entry["entry_number"] as! Int, name: pokemon_species["name"]!.capitalized)
                     } else {
                         fulfill(false)
+                        return
                     }
+                    
+                    
+                    // Search for types of pokemon
+                    let numberString = String(describing: pokemon.number)
+                    for (_, pokemonType) in self.typesCsv.enumerated() {
+                        if pokemonType["pokemon_id"] == numberString {
+                            if pokemonType["slot"] == "1" {
+                                pokemon.typeSlot1 = Int(pokemonType["type_id"]!)!
+                            } else if pokemonType["slot"] == "2" {
+                                pokemon.typeSlot2 = Int(pokemonType["type_id"]!)!
+                            }
+                        }
+                    }
+                    self.itens += [pokemon]
                 }
                 
                 fulfill(true)
